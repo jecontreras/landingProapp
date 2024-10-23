@@ -79,27 +79,21 @@ export class LandingWhatsappComponent implements OnInit {
       this.price = this.dataPro.pro_vendedor;
     }
     let userIdCode:any = await this.getIdNumberUser();
-    console.log("********93", userIdCode)
+    console.log("********93", userIdCode, off)
     this.idVendedor = userIdCode.id;
     if( off ) this.dataPro = await this.getProduct( this.idVendedor );
     //console.log("articulos", this.dataPro)
     this.viewPhoto = this.dataPro.foto;
     try {
       let filterNamePais = this.listIndiPais.find( row => row.iso3 === this.indicativoId );
-      if( filterNamePais ) {
-        this.namePais = filterNamePais.name;
-        if( this.namePais === 'Panama' ) {
-          this.price = 5;
-          this.code = "USD";
-          this.price2 = 5;
-        }else{
-          this.price = this.dataPro.pro_vendedor;
-          this.code = "COP";
-          this.price2 = this.dataPro.pro_vendedor;
-          this.price3 = this.dataPro.pro_uni_venta;
-        }
-      }
+      if( filterNamePais ) this.namePais = filterNamePais.name;
+      this.price = this.dataPro.pro_vendedor;
+      this.code = "COP";
+      this.price2 = this.dataPro.pro_vendedor;
+      this.price3 = this.dataPro.pro_uni_venta;
+      console.log("***100", this.price2)
     } catch (error) {
+      console.log("****ERROR CONTROLADO", error)
       this.numberId = "3108131582";
       this.indicativoId = "COL";
       this.price = this.dataPro.pro_vendedor;

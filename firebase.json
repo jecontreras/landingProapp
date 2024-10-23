@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/locomproAqui",
+    "public": "dist/locomproAqui/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
