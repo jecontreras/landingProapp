@@ -1,0 +1,63 @@
+.colorFondo{
+    background: #57ff75 !important;
+}
+.espaciosL{
+    margin-right: 5px;
+}
+
+.colorCompletado{
+    background: #95ffac !important;
+}
+.colorDespachado{
+    background: #f6ffa8 !important;
+}
+.colorEntrante{
+    background: #83bafa !important;
+}
+.colorDevolucion{
+    background: #ff7598 !important;
+}
+.colorPagado{
+    background: #979797 !important;
+}
+.colorEliminado{
+    background: #fb1951 !important;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+.search-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

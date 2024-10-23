@@ -1,0 +1,184 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" style="overflow-x: scroll;">
+                    <br>
+                    <br>
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <h4 class="card-title">Mi cuenta</h4>
+                    </div>
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <h5>{{ data.usu_nombre }}</h5>
+                        </div>
+                    </div>
+                    <mat-tab-group mat-align-tabs="center" [color]="'accent'" [backgroundColor]="'primary'">
+                        <mat-tab label="Datos Iniciales" >
+                            <div class="row" style=" padding: 20px ">
+                                <div class="col-12 content">
+
+                                    <div class="d-flex justify-content-center">
+                                        <div>
+                                            <button class="contenedor-btn-file" style="    margin-left: 146px;" (click)="openView('usu_imagen')">
+                                                <i class="material-icons">file_upload</i>
+                                                Subir Foto de tu Tienda 400px / 400px
+                                                <label for="btn-file"></label>
+                                                <input type="file" id="btn-file" accept="image/*" (change)="fileChangeEvent($event)">
+                                            </button>
+                                            <span *ngIf="viewOpt==='usu_imagen'">
+                                                <button *ngIf="croppedImage" style="height: 55px;" type="button" class="btn btn-success" (click)="finixCorteImg('usu_imagen')">Terminar y Subir Imagen</button>
+
+                                                <image-cropper style="width: 570px;" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                                                    [aspectRatio]="400 / 400" format="png" (imageCropped)="imageCropped( $event )"
+                                                    (imageLoaded)="imageLoaded( $event )" (cropperReady)="cropperReady( $event )"
+                                                    (loadImageFailed)="loadImageFailed( $event )"></image-cropper>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <label>Nombre de su tienda</label>
+                                    <input type="text" [(ngModel)]="data.usu_usuario"
+                                        class="form-control form-control-sm" (ngModelChange)="validadUsername()">
+                                    <div *ngIf="!disabledusername">
+                                        <span class="bg-danger text-white rounded">El Nombre de su tienda Ya Se
+                                            Encuentra Registrado Por Favor Utilizar
+                                            Otro</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label>Nombre de usuario</label>
+                                    <input type="text" [(ngModel)]="data.usu_nombre"
+                                        class="form-control form-control-sm">
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label>Apellido(s)</label>
+                                    <input type="text" [(ngModel)]="data.usu_apellido"
+                                        class="form-control form-control-sm">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label>Numero de Whatsapp</label>
+                                    <div class="d-flex bd-highlight mb-3">
+                                      <div class="p-2 bd-highlight" style="width: 120px; ">
+                                        <select class="form-control form-control-sm" [(ngModel)]="data.usu_indicativo" required >
+                                          <option [value]="item.phone_code" *ngFor="let item of listIndicativos">{{
+                                              item.nombre }}
+                                              +{{ item.phone_code }}
+                                          </option>
+                                      </select>
+                                      </div>
+                                      <div class="ml-auto p-2 bd-highlight">
+                                        <input type="text" [(ngModel)]="data.usu_telefono" class="form-control form-control-sm">
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label>Ciudad</label>
+                                    <ng-autocomplete [(ngModel)]="data.usu_ciudad" [data]="listCiudades" [searchKeyword]="keyword" placeHolder="Buscar Ciudad" autocomplete="off"
+                                        historyIdentifier="listCiudades" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"  (inputChanged)='onChangeSearch($event)'>
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <div class="item">
+                                            <span [innerHTML]="item.city"></span> &nbsp; | &nbsp;
+                                            <small>Departamento: {{ item.state }}</small> &nbsp; | &nbsp;
+                                            <small>--: {{ item.name }}</small>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                      <div [innerHTML]="notFound"></div>
+                                  </ng-template>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label>Dirección</label>
+                                    <input type="text" [(ngModel)]="data.usu_direccion"
+                                        class="form-control form-control-sm">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label>Correo Electronico</label>
+                                    <input type="text" [(ngModel)]="data.usu_email" class="form-control form-control-sm"
+                                        (ngModelChange)="validadEmail()">
+                                    <div *ngIf="!disabledemail">
+                                        <span class="bg-danger text-white rounded">El Email Solo Seran Correos Con
+                                            Dominio Gmail</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label>Fecha Nacimiento(s)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="date" class="form-control" [(ngModel)]="data.usu_fec_nacimiento">
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <label>Genero</label>
+                                    <select class="form-control form-control-sm" [(ngModel)]="data.usu_genero">
+                                        <option value="masculino">Masculino</option>
+                                        <option value="feminino">Feminino</option>
+                                    </select>
+                                </div>
+                                <!--<div class="col-12">
+                                    <label>Confirmar Contraseña Para Actualizar</label>
+                                    <input type="text" [(ngModel)]="data.cat_nombre" class="form-control form-control-sm">
+                                </div>-->
+                                <div class="col-12">
+                                    <div class="d-flex flex-row-reverse bd-highlight">
+                                        <div class="p-2 bd-highlight">
+                                            <button class="p-2 btn btn-success btn-just-icon btn-round" (click)="Actualizar()">
+                                                Actualizar Datos
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="disableRestaure">
+                                    <label>Clave Nueva</label>
+                                    <div class="d-flex bd-highlight">
+                                      <div class="p-2 flex-grow-1 bd-highlight">
+                                        <input [type]="fieldTextType ? 'text' : 'password'" [(ngModel)]="restaure.passNew"
+                                        class="form-control form-control-sm">
+                                      </div>
+                                      <div class="p-2 bd-highlight">
+                                        <div class="input-group-append">
+                                          <span class="input-group-text">
+                                            <i
+                                              class="fa"
+                                              [ngClass]="{
+                                                'fa-eye-slash': !fieldTextType,
+                                                'fa-eye': fieldTextType
+                                              }"
+                                              (click)="toggleFieldTextType()"
+                                            ></i>
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="col-6">
+                                    <br>
+                                    <button class="p-2 btn btn-primary btn-just-icon btn-round"
+                                        (click)="disableRestaure = true;" *ngIf="!disableRestaure">
+                                        Cambiar Contraseña
+                                    </button>
+                                    <button class="p-2 btn btn-primary btn-just-icon btn-round"
+                                        (click)="CambiarPassword()" *ngIf="disableRestaure">
+                                        Actualizar Contraseña
+                                    </button>
+                                    <br><br><br>
+                                </div>
+                            </div>
+                        </mat-tab>
+
+                    </mat-tab-group>
+                </div>
+            </div>
+            <div></div>
+        </div>
+    </div>
+</div>
