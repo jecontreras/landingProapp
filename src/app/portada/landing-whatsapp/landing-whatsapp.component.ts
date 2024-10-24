@@ -34,7 +34,7 @@ export class LandingWhatsappComponent implements OnInit {
   currentIndex: number = 0;
   btnDisabled: boolean = false;
   codeId:string;
-  view:string = "one";
+  view:string = "three";
   dataEnvioDetails:any = {};
   numberId:string;
   indicativoId: string;
