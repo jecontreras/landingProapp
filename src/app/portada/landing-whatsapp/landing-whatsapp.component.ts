@@ -48,7 +48,7 @@ export class LandingWhatsappComponent implements OnInit {
   price3:number = 25000;
   dataCantidadCotizada:number;
   btnFleteDisable:boolean = false;
-  urlWhatsapp:string = "https://wa.me/573133680357?text=Hola Servicio al cliente";
+  urlWhatsapp:string = "";
   idVendedor:number;
 
   constructor(
@@ -121,6 +121,7 @@ export class LandingWhatsappComponent implements OnInit {
       }
       this.listGaleria.sort(() => this.getRandomNumber());
     } catch (error) { }
+    this.urlWhatsapp = `https://wa.me/57${ this.numberId }?text=Hola Servicio al cliente`
     //console.log("****", this.dataPro, this.listGaleria)
     //console.log("list ciudades", this.listCiudades)
   }
