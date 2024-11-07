@@ -3,11 +3,11 @@
     <div class="col-12" style="border-radius: 20px;">
       <div class="d-flex bd-highlight" style="padding-top: 0px;">
         <div class="p-1 flex-grow-1 bd-highlight">
-          <h4 style="text-align: center;" class="fw-bold">{{ data.pro_nombre | slice: 0:12 }} ... </h4>
+          <h4 style="text-align: center;" class="fw-bold">{{ data.pro_nombre | slice: 0:30 }} ... </h4>
         </div>
         <div class="p-1 bd-highlight">
-          <button type="button" class="btn btn-danger" mat-dialog-close>
-            X
+          <button mat-mini-fab color="warn"  mat-dialog-close>
+            <mat-icon>close</mat-icon>
           </button>
         </div>
       </div>
@@ -78,60 +78,30 @@
                 <div class="content" style="width: 100%;">
                   <div class="row ">
                     <div class="col-12">
-                      <div class="container borderBotton">
-                        <div class="row">
-                          <div class="col-6 p-1" style="text-align: center;">
-                            <section class="  p-1" style="text-align: center; border-radius: 20px; ">
-                              <div class="row">
-                                <div class="col-12" style="text-align: center;">
-                                  <section class="paddinLader">
-                                    <label for="exampleFormControlSelect1">Colores disponibles:</label>
-                                    <select class="form-control form-control-sm text-align" [(ngModel)]="data.color"
-                                        (change)="colorSeleccionado( );" id="sel_color">
-                                        <option value="null">Todos</option>
-                                        <option [value]="item.talla" *ngFor="let item of data.listColor">
-                                          {{ item.talla }}
-                                        </option>
-                                    </select>
-                                  </section>
-                                </div>
-                                <div class="col-12" style="text-align: center;">
-                                  <section class="paddinLader">
-                                    <label>Cantidad Adquirir</label>
-                                    <input type="number" [(ngModel)]="data.cantidadAdquirir" class="form-control form-control-sm text-align">
-                                  </section>
-                                </div>
-                              </div>
-                            </section>
+                      <div class="row">
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label>Lo Vendes de 1 - 5:</label>
+                            <input currencyMask [(ngModel)]="data.encuanto" class="form-control form-control-sm text-align" [options]="opcionCurrencys"/>
                           </div>
-                          <div class="col-6 p-1" style="text-align: center;">
-                            <section class="  p-1" style="text-align: center; border-radius: 20px; ">
-                              <div class="row">
-                                <div class="col-12">
-                                  <section class="paddinLader" *ngIf="seleccionoColor.tallaSelect[0].tal_descripcion !== 'Unica'">
-                                    <label for="exampleFormControlSelect1">Tallas disponibles:</label>
-                                    <select class="form-control form-control-sm text-align" [(ngModel)]="data.tallas"
-                                        (change)="seleccionTalla()" [disabled]="!data.color">
-                                        <option [value]="item.tal_descripcion" *ngFor="let item of seleccionoColor.tallaSelect">
-                                            Tamaño: {{
-                                            item.tal_descripcion }} UND: {{ item.cantidad }}</option>
-                                    </select>
-                                  </section>
-                                  <section class="paddinLader" *ngIf="seleccionoColor.tallaSelect[0].tal_descripcion === 'Unica'">
-                                    <p>
-                                      Cantidades {{ seleccionoColor.tallaSelect[0].cantidad }}
-                                    </p>
-                                  </section>
-                                </div>
-                                <div class="col-12" *ngIf="!data.coinShop">
-                                  <section class="paddinLader">
-                                    <label>Lo Vendes en:</label>
-                                    <input currencyMask [(ngModel)]="data.encuanto" [disabled]="disabledView === 'store'" class="form-control form-control-sm text-align" [options]="opcionCurrencys" (blur)="validando()"/>
-                                  </section>
-                                </div>
-                              </div>
-                            </section>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label>Lo Vendes de 6 - en adelante:</label>
+                            <input currencyMask [(ngModel)]="data.encuanto2" class="form-control form-control-sm text-align" [options]="opcionCurrencys"/>
                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label>Quien Paga el Envio:</label>
+                            <select class="form-control" [(ngModel)]="data.envio">
+                              <option value="0">no envio gratis</option>
+                              <option value="1">si envio gratis</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6 p-3">
+                          <button mat-raised-button color="primary" (click)="validandoUpdatePrice()">Actulizar Datos</button>
                         </div>
                       </div>
                     </div>
@@ -198,11 +168,6 @@
           Agregar a mi Tienda
         </button>
       </div>
-      <div *ngIf="disabledView === 'createPrice'">
-        <button type="button" class="btn btn-danger" (click)="handleDroppArticle()" style="padding: 2% 50px;">
-          Quitar de mi Tienda
-        </button>
-      </div>
     </div>
     <div class="d-flex bd-highlight" *ngIf="breakpoint === 1">
 
@@ -211,9 +176,6 @@
       </button>
       <button style="font-size: 9px;" cdkFocusInitial (click)="handleAddStore()" type="button" class="btn btn-success m-1" *ngIf="disabledView === 'store' && dataUser.id">
         Agregar a mi Tienda
-      </button>
-      <button style="font-size: 9px;" type="button" class="btn btn-danger m-1" *ngIf="disabledView === 'createPrice'" (click)="handleDroppArticle()">
-        Quitar de mi Tienda
       </button>
     </div>
 </mat-dialog-actions>

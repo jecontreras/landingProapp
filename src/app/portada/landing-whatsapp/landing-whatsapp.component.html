@@ -205,7 +205,8 @@
                       <div><p>Precio envió:</p></div>
                       <div></div>
                       <div>
-                        <p>{{ _ToolServices.monedaChange( 3, 2, ( data.totalFlete || 0 ), code ) }}</p>
+                        <p *ngIf="this.dataPro.cobreEnvio === 0">{{ _ToolServices.monedaChange( 3, 2, ( data.totalFlete || 0 ), code ) }}</p>
+                        <p *ngIf="this.dataPro.cobreEnvio === 1">Envio Gratis</p>
                       </div>
                     </div>
                     <div class="d-flex justify-content-between" *ngIf="data.totalFlete">
@@ -351,7 +352,10 @@
                           <img *ngIf="dataEnvioDetails.transportadora === 'Coordinadora'" style="width: 100%; width: 60px;"  src="./assets/img/logoCordinadora.png" alt="">-->
                         </div>
                         <div></div>
-                        <div><h6>Precio envio: {{ _ToolServices.monedaChange( 3, 2, ( data.totalFlete || 0 ), code ) }}</h6></div>
+                        <div>
+                          <h6 *ngIf="this.dataPro.cobreEnvio === 0" >Precio envio: {{ _ToolServices.monedaChange( 3, 2, ( data.totalFlete || 0 ), code ) }}</h6>
+                          <h6 *ngIf="this.dataPro.cobreEnvio === 1" >Precio envio: Gratis</h6>
+                        </div>
                       </div>
                     </div>
                   </section>

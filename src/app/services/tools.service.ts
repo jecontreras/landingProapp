@@ -107,7 +107,7 @@ export class ToolsService {
     });
 
   }
-  modaHtmlEnd( data ){
+  modaHtmlEnd( data, dataPro ){
     return new Promise(resolve => {
       if( data.contraEntrega === 0 ){
         Swal.fire({
@@ -136,7 +136,7 @@ export class ToolsService {
               <label>Precio Articulos: </label> <span> ${  this.monedaChange( 3, 2, ( data.priceTotal || 0 ) ) }</span>
             </div>
             <div class="col-12">
-              <label>Precio de Envio: </label> <span> ${  this.monedaChange( 3, 2, ( data.totalFlete || 0 ) ) }</span>
+              <label>Precio de Envio: </label> <span> ${  dataPro.cobreEnvio === 0 ? ( this.monedaChange( 3, 2, ( data.totalFlete || 0 ) ) ) : "Gratis" }</span>
             </div>
             <div class="col-12">
               <label>Precio Total a Pagar: </label> <span> ${  this.monedaChange( 3, 2, ( Number( data.totalAPagar ) || 0 ) ) }</span>
@@ -254,6 +254,37 @@ export class ToolsService {
         resolve( result ) ;
       })
     });
+  }
+
+  modalInputSelectEnvio( valorEn ){
+    return new Promise(resolve => {
+      Swal.fire({
+        title: 'Quien paga el envio',
+        html: `
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Respuesta Actual activa ${ valorEn === 0 ? 'No Envio Gratis' : 'Si Envio Gratis' } </label>
+            <div class="select-with-arrow">
+              <select class="form-control" id="mySelect">
+                <option>no envio gratis</option>
+                <option>si envio gratis</option>
+              </select>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        focusConfirm: false,
+        preConfirm: () => {
+          const selectedOption = (document.getElementById('mySelect') as HTMLSelectElement).value;
+          console.log('Selected option:', selectedOption);
+          let dataN = Number();
+          if( selectedOption === 'no envio gratis' ) dataN = 0;
+          else dataN = 1;
+          resolve({ envio: dataN });
+        }
+      });
+    });
+
   }
 
   processPhoto( data ){

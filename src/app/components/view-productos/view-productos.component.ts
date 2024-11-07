@@ -153,6 +153,7 @@ export class ViewProductosComponent implements OnInit {
         this.data.idPrice = res.price; //console.log("res.price", res.price)
         this.data.encuanto = res.price;
         this.data.encuanto2 = res.price2;
+        this.data.envio = res.envio;
       }
     });
   }
@@ -439,10 +440,15 @@ export class ViewProductosComponent implements OnInit {
     //console.log( event )
   }
 
-  validando(){
-    console.log( this.data )
-    if( ( this.data.encuanto < this.data.pro_vendedor )  ) { this.disabledPr = false; return this._tools.tooast({ title: "Lo sentimos! Pero se puedes vender este producto en este precio", icon: "warning" });}
-    this.disabledPr = true;
+  async validandoUpdatePrice(){
+    let data = {
+      article: this.data.id,
+      user: this.dataUser.id,
+      price: this.data.price,
+      price2: this.data.price2,
+      envio: this.data.envio
+    };
+    await this.handleCreatePrice( data );
   }
 
   alertPromocion(){
@@ -469,33 +475,43 @@ export class ViewProductosComponent implements OnInit {
         return this._tools.error({ icon: "error",title: "Importante", mensaje: "Lo Sentimos. Tu nuevo valor es menor al precio de distribuidor.", footer: "Recuerda que también debes calcular el precio del envio" } )
       else{
         let coinAlert2:any = 0;
-        if( this.data.id === 1456 ){
-          coinAlert2 = await this._tools.alertInput({
-            // title: "Valor a Vender <br>¡sin puntos solo numerico!",
-            title: "Vender de 6 - en adelante",
-            input: "text",
-            value: String( this.data.encuanto2 || this.data.pro_uni_venta ),
-            confirme: "Agregar"
-          });
-          console.log("***383", coinAlert2);
-          console.log("coin alert", coinAlert2)
-          coinAlert2 = Number( coinAlert2['value']);
-        }
+        coinAlert2 = await this._tools.alertInput({
+          // title: "Valor a Vender <br>¡sin puntos solo numerico!",
+          title: "Vender de 6 - en adelante",
+          input: "text",
+          value: String( this.data.encuanto2 || this.data.pro_uni_venta ),
+          confirme: "Agregar"
+        });
+        console.log("***383", coinAlert2);
+        console.log("coin alert", coinAlert2)
+        coinAlert2 = Number( coinAlert2['value']);
+
+        let coinAlert3 = await this._tools.modalInputSelectEnvio( this.data.envio );
+        console.log("***383", coinAlert3);
+        coinAlert3 = Number( coinAlert3['envio']);
 
         let data = {
           article: this.data.id,
           user: this.dataUser.id,
           price: coinAlert,
-          price2: coinAlert2
+          price2: coinAlert2,
+          envio: coinAlert3
         };
-
-        this._products.createPrice( data ).subscribe( res =>{
-          this._tools.tooast({ title: "Completo", detalle: "Este Producto ha sido Agregado a tu Cuenta."})
-          this.dialogRef.close('creo');
-        });
+        await this.handleCreatePrice( data );
+        
       }
 
     }
+  }
+
+  async handleCreatePrice( data ){
+    return new Promise( resolve =>{
+      this._products.createPrice( data ).subscribe( res =>{
+        this._tools.tooast({ title: "Completo", detalle: "Este Producto ha sido Agregado a tu Cuenta."})
+        this.dialogRef.close('creo');
+        resolve( res );
+      },()=> resolve( false ) );
+    })
   }
 
   async handleDroppArticle(){
