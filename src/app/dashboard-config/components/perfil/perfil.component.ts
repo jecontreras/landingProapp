@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ServiciosService } from 'src/app/services/servicios.service';
 import { ToolsService } from 'src/app/services/tools.service';
 import * as moment from 'moment';
@@ -59,6 +59,7 @@ export class PerfilComponent implements OnInit {
 
   fieldTextType: boolean;
   viewOpt:string;
+  pixelInput: string = '';
 
   constructor(
     private _user: UsuariosService,
@@ -67,7 +68,8 @@ export class PerfilComponent implements OnInit {
     private _store: Store<STORAGES>,
     private _categorias: CategoriasService,
     public dialog: MatDialog,
-    private _ventas: VentasService
+    private _ventas: VentasService,
+    
   ) {
     this._store.subscribe((store: any) => {
       console.log(store);
@@ -81,6 +83,7 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.data.usu_nombre1)
+    if( this.data.usu_color_hex ) this.pixelInput = this.data.usu_color_hex;
     this.getCiudades();
     //this.data = this._model.dataUser || {};
     if (this.data.usu_fec_nacimiento) this.data.usu_fec_nacimiento = moment(this.data.usu_fec_nacimiento).format('DD/MM/YYYY');
@@ -262,15 +265,17 @@ export class PerfilComponent implements OnInit {
     return new Promise( resolve =>{
       if (!this.disabledusername || !this.disabledemail) return this._tools.tooast({ title: "Error tenemos problemas en el formulario por favor revisar gracias", icon: "error" })
 
-      this.data = _.omit(this.data, ['usu_perfil', 'cabeza', 'nivel', 'empresa', 'createdAt', 'updatedAt', 'categoriaPerfil']); this.data = _.omitBy(this.data, _.isNull);
-      try { this.data.usu_ciudad = this.data.usu_ciudad.name; } catch (error) { error }
-      this._user.update(this.data).subscribe((res: any) => {
+      let data = _.omit( this.data, ['usu_perfil', 'cabeza', 'nivel', 'empresa', 'createdAt', 'updatedAt', 'categoriaPerfil']); 
+      if( this.pixelInput ) data.usu_color_hex = this.pixelInput;
+      data = _.omitBy( data, _.isNull);
+      try { data.usu_ciudad = data.usu_ciudad.name; } catch (error) { error }
+      this._user.update( data ).subscribe((res: any) => {
         //console.log(res);
         this._tools.presentToast("Actualizado");
         let accion = new UserAction(res, 'put');
         this._store.dispatch(accion);
-        this.handleCategorySelect();
-        this.updatePlatform();
+        /*this.handleCategorySelect();
+        this.updatePlatform();*/
         resolve( true );
       }, (error) => { console.error(error); this._tools.presentToast("Error de Servidor"); resolve( false ); })
     })

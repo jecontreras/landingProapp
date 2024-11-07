@@ -245,11 +245,11 @@ export class HeaderComponent implements OnInit {
       //console.log(error)
     }
     //console.log("***149", this.rolUser)
-    if( this.dataUser.id )this.getCarrito();
-    if( this.dataUser.id ) this.getAlert();
+    /*if( this.dataUser.id )this.getCarrito();
+    if( this.dataUser.id ) this.getAlert();*/
     this.getEventos();
 
-    if( this.dataUser.id ) this.billeteraCalcular()
+    //if( this.dataUser.id ) this.billeteraCalcular()
   }
 
   billeteraCalcular(){
@@ -521,7 +521,7 @@ export class HeaderComponent implements OnInit {
   }
 
   async listMenus(){
-    let submenus = await this.getCategorias();
+    //let submenus = await this.getCategorias();
     //console.log( submenus );
     this.menus = [
       {

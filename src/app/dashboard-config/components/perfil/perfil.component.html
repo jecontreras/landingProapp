@@ -136,6 +136,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="col-12">
+                                    <div class="d-flex p-2 bd-highlight">
+                                        <h3>Agregar el pixel de facebook</h3>
+                                    </div>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <textarea class="mat-elevation-z4" style="width: 100%;" [(ngModel)]="pixelInput" placeholder="Pega el código del píxel aquí" rows="8"></textarea>
+                                </div>
+                                <div class="col-12 ">
+                                    <button mat-raised-button color="primary" (click)="Actualizar();" >Guardar y aplicar píxel de facebook</button>
+                                </div>
+
                                 <div class="col-12" *ngIf="disableRestaure">
                                     <label>Clave Nueva</label>
                                     <div class="d-flex bd-highlight">
