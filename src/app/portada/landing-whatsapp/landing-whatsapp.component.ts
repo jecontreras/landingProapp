@@ -50,6 +50,7 @@ export class LandingWhatsappComponent implements OnInit {
   btnFleteDisable:boolean = false;
   urlWhatsapp:string = "";
   idVendedor:number;
+  idProduct:number = 1456;
 
   constructor(
     private _productServices: ProductoService,
@@ -69,14 +70,17 @@ export class LandingWhatsappComponent implements OnInit {
   async dataInit( off = true ){
     this.codeId = this.activate.snapshot.paramMap.get('code');
     let formatN = this.activate.snapshot.paramMap.get('number');
-    //console.log("**********48", this.activate.snapshot.paramMap, formatN)
+    let formatIp = this.activate.snapshot.paramMap.get('idP');
+    console.log("**********48", this.activate.snapshot.paramMap, formatIp)
     try {
       this.numberId = ( formatN.split("&") )[1];
-      this.indicativoId = ( formatN.split("&") )[0]
+      this.indicativoId = ( formatN.split("&") )[0];
+      this.idProduct = Number( formatIp );
     } catch (error) {
       this.numberId = "3108131582";
       this.indicativoId = "COL";
       this.price = this.dataPro.pro_vendedor;
+      this.idProduct = 1456;
     }
     let userIdCode:any = await this.getIdNumberUser();
     console.log("********93", userIdCode, off)
@@ -211,7 +215,7 @@ export class LandingWhatsappComponent implements OnInit {
 
   getProduct( userId:number ){
     return new Promise( resolve =>{
-      this._productServices.getStore( { where: { article: 1456, user: userId } } ).subscribe( res => resolve( res.data[0] ), error => resolve( error ) );
+      this._productServices.getStore( { where: { article: this.idProduct || 1456, user: userId } } ).subscribe( res => resolve( res.data[0] ), error => resolve( error ) );
     })
   }
 
@@ -250,16 +254,20 @@ export class LandingWhatsappComponent implements OnInit {
     //console.log("***ENTRO", row, item)
     item.foto = row.foto;
     const dialogRef = this.dialog.open(DialogPedidoArmaComponent,{
-      data: { foto: row.foto },
+      data: { foto: row.foto, id: this.idProduct },
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(selectTalla => {
       //console.log(`Dialog result:`, selectTalla);
-      if( !selectTalla.talla || !selectTalla.cantidad || !item.foto ) return false;
-      row.tal_descripcion = selectTalla.talla;
-      row.amountAd = selectTalla.cantidad;
-
-      this.handleOpenDialogAmount( row, item, false )
+      try {
+        if( !selectTalla.talla || !selectTalla.cantidad || !item.foto ) return false;
+        row.tal_descripcion = selectTalla.talla;
+        row.amountAd = selectTalla.cantidad;
+  
+        this.handleOpenDialogAmount( row, item, false )
+      } catch (error) {
+        
+      }
     });
 
   }
@@ -462,7 +470,7 @@ export class LandingWhatsappComponent implements OnInit {
    this._ventas.createVentasL( dats ).subscribe( res =>{
     if( res ){
       //console.log("*****335", '/front/landingWhatsapp'+dats.code+this.indicativoId+this.numberId);
-      this.Router.navigate(['/front/landingWhatsapp', dats.code, `${ this.indicativoId }&${ this.numberId }` ] );
+      this.Router.navigate(['/front/landingWhatsapp', dats.code, `${ this.indicativoId }&${ this.numberId }`, this.idProduct ] );
       setTimeout(()=> this.dataInit( false ), 3000 );
       //setTimeout(()=> location.reload(), 3000 );
     }
@@ -713,7 +721,7 @@ Monto a cancelar: ${ this._ToolServices.monedaChange( 3,2, ( this.data.totalAPag
 
   handleOpenPhoto(){
     const dialogRef = this.dialog.open(ListGaleryLandingComponent,{
-      data: {data: this.dataPro.listColor },
+      data: {data: this.dataPro.listColor, id: this.idProduct },
       width: "100%",
       height: "auto"
     });

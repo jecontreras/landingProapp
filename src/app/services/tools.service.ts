@@ -70,7 +70,7 @@ export class ToolsService {
       footer: text.footer || ''
     });
   }
-  modalInputSelect( ){
+  modalInputSelect( id:number = 1456  ){
     return new Promise(resolve => {
       Swal.fire({
         title: 'Selecciona una Talla',
@@ -85,6 +85,7 @@ export class ToolsService {
                 <option>38</option>
                 <option>39</option>
                 <option>40</option>
+                ${ id === 1456 ? '' : '<option>42</option><option>43</option>'}
               </select>
               <i class="fas fa-chevron-down"></i>
             </div>

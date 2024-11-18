@@ -29,7 +29,7 @@ export class ListGaleryLandingComponent implements OnInit {
 
   async handleProccesMount( item:any, row:any  ){
     console.log("**")
-    let val:any = await this._tools.modalInputSelect( );
+    let val:any = await this._tools.modalInputSelect( this.dataInit.id );
     if( val.cantidad  && val.talla ) this.listSelect.push( { ref: row.talla ,foto: item.foto, codigo: item.codigo, cantidad: Number(val.cantidad), talla: val.talla } );
     else{
       this._tools.presentToast( "Necesita seleccionar la cantidad o talla, es importante, por favor, selecciónela nuevamente." );

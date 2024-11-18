@@ -27,7 +27,7 @@
               <div class="col-12">
                 <br>
               </div>
-              <div class="col-md-6 mb-4">
+              <div class="col-md-6 mb-4" *ngIf="dataPro.id === 1456 ">
                 <div class="d-flex justify-content-center">
                   <div>
                     <div class="card" style="width: 18rem;     color: white; background: #19173d; border-radius: 20px;     height: 250px;">
@@ -49,7 +49,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 mb-4" *ngIf="namePais === 'Colombia'">
+              <div class="col-md-6 mb-4" *ngIf="namePais === 'Colombia' && dataPro.id === 1456">
                 <div class="d-flex justify-content-center">
                   <div>
                     <div class="card" style="width: 18rem;     color: white; background: #19173d; border-radius: 20px;     height: 250px;">
@@ -74,7 +74,7 @@
             </div>
           </div>
 
-          <footer class="footer text-center py-3">
+          <footer class="footer text-center py-3" *ngIf="dataPro.id === 1456 ">
             <label class="exTrega">Pago Contra entrega</label>
             <p class="m-0">Emprende por tan solo {{ _ToolServices.monedaChange( 3,2, ( this.price2 || 0 ), code ) }}</p>
           </footer>
@@ -84,7 +84,7 @@
 
         <section *ngIf="view === 'three'">
           <div class="row">
-            <div class="col-12">
+            <div class="col-12" *ngIf="dataPro.id === 1456 ">
               <br>
               <div class="d-flex justify-content-center">
                 <div>

@@ -673,7 +673,9 @@ export class FormproductosComponent implements OnInit {
     let filtro = this.listColor.filter(( item:any ) => item.talla == value );
     if( filtro ) if( filtro.length > 0 ) return resolve( false );
     // Add our fruit
-    for( let row of this.data.listaTallas ) listas.push( { tal_descripcion: row.tal_descripcion, id: row.id, tal_sw_activo: row.tal_sw_activo } );
+    try {
+      for( let row of this.data.listaTallas ) listas.push( { tal_descripcion: row.tal_descripcion, id: row.id, tal_sw_activo: row.tal_sw_activo } );
+    } catch (error) { }
     if (value) {
       let data:any = {
         talla: value,

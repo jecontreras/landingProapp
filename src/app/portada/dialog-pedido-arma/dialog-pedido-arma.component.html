@@ -30,6 +30,18 @@
             <a class="mouse tEstile" 
                [ngClass]="{'colorFondo': data.talla === 40}"
                (click)="handleSelectT(40)">40</a>
+              <span *ngIf="datas.id !==1456">
+                <br>
+                <a class="mouse tEstile" 
+                [ngClass]="{'colorFondo': data.talla === 41}"
+                (click)="handleSelectT(41)">41</a>
+                <a class="mouse tEstile" 
+                [ngClass]="{'colorFondo': data.talla === 42}"
+                (click)="handleSelectT(42)">42</a>
+                <a class="mouse tEstile" 
+                [ngClass]="{'colorFondo': data.talla === 43}"
+                (click)="handleSelectT(43)">43</a>
+              </span>
         </div>
         <mat-form-field class="example-full-width" style="width: 80%; text-align: center;">
             <mat-label>Cantidad</mat-label>

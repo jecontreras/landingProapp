@@ -553,6 +553,34 @@ export class HeaderComponent implements OnInit {
         url: '/config/perfil',
         submenus:[]
       },
+      {
+        icons: 'settings',
+        nombre: 'Configuración',
+        disable: this.rolUser == 'administrador',
+        url: '.',
+        submenus:[
+          {
+            icons: 'settings',
+            nombre: 'Categorias',
+            url: '/config/categorias',
+          },
+          {
+            icons: 'settings',
+            nombre: 'Lista de Tallas',
+            url: '/config/listaTalla',
+          },
+          {
+            icons: 'settings',
+            nombre: 'Productos',
+            url: '/config/productos',
+          },
+          {
+            icons: 'settings',
+            nombre: 'Usuarios',
+            url: '/config/usuarios',
+          },
+        ]
+      },
     ];
 
     this.menus = _.filter(this.menus, row=>row.disable);

@@ -159,7 +159,7 @@ export class ViewProductosComponent implements OnInit {
   }
 
   shareUrl( ){
-    const url = window.location.origin+"/front/landingWhatsapp/3J6C22/COP&"+this.dataUser.usu_telefono;
+    const url = window.location.origin+"/front/landingWhatsapp/3J6C22/COP&"+this.dataUser.usu_telefono+"/"+this.data.id;
     this._tools.handleCopyHolder( url );
     return url;
   }
